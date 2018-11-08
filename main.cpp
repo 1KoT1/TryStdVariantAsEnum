@@ -61,5 +61,8 @@ int main() {
 	               cout << "Is running c++ 17." << endl;
 	             },
 	           }, s2);
+
+	cout << "Size of enum: " << sizeof (s) << endl;
+	cout << "Size of variant: " << sizeof (s2) << endl;
 }
 
