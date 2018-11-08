@@ -54,10 +54,10 @@ int main() {
 
 	State_::Value s2 = State_::Ready();
 	std::visit(overloaded {
-	             [](State_::Ready arg) {
+	             [](State_::Ready) {
 	               cout << "Is ready c++ 17." << endl;
 	             },
-	             [](State_::Running arg) {
+	             [](State_::Running) {
 	               cout << "Is running c++ 17." << endl;
 	             },
 	           }, s2);
