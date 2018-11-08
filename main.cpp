@@ -1,31 +1,25 @@
-#include <variant>
-#include <string>
-#include <cassert>
+#include <iostream>
+#include <stdexcept>
 
-using namespace std::literals;
+using namespace std;
+
+enum State {
+	Ready,
+	Running
+};
 
 int main() {
-	std::variant<int, float> v, w;
-	v = 12; // v contains int
-	int i = std::get<int>(v);
-	w = std::get<int>(v);
-	w = std::get<0>(v); // same effect as the previous line
-	w = v; // same effect as the previous line
+	State s(State::Ready);
 
-	//  std::get<double>(v); // error: no double in [int, float]
-	//  std::get<3>(v);      // error: valid index values are 0 and 1
-
-	try {
-		std::get<float>(w); // w contains int, not float: will throw
+	switch (s) {
+		case State::Ready:
+			cout << "Is ready" << endl;
+			break;
+		case State::Running:
+			cout << "Is running" << endl;
+			break;
+		default:
+			throw logic_error("Unhandled value of enum.");
 	}
-	catch (const std::bad_variant_access&) {}
-
-	std::variant<std::string> x("abc"); // converting constructors work when unambiguous
-	x = "def"; // converting assignment also works when unambiguous
-
-	std::variant<std::string, bool> y("abc"); // casts to bool when passed a char const *
-	assert(std::holds_alternative<bool>(y)); // succeeds
-	y = "xyz"s;
-	assert(std::holds_alternative<std::string>(y)); //succeeds
 }
 
