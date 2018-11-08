@@ -18,7 +18,15 @@ enum State {
 namespace State_ {
 	class Ready {};
 	class Running {};
+#ifdef NEW_ENUM_VALUE
+	class Preparation {};
+#endif
+
+#ifdef NEW_ENUM_VALUE
+	using Value = std::variant<State_::Ready, State_::Running, State_::Preparation>;
+#else
 	using Value = std::variant<State_::Ready, State_::Running>;
+#endif
 }
 
 int main() {
