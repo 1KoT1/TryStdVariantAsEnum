@@ -1,7 +1,9 @@
 #include <iostream>
+#include "overloaded.h"
 #include <stdexcept>
+#include <variant>
 
-#define NEW_ENUM_VALUE
+//#define NEW_ENUM_VALUE
 
 using namespace std;
 
@@ -12,6 +14,20 @@ enum State {
 	,Preparation
 #endif
 };
+
+namespace State_ {
+	class Ready {};
+	class Running {};
+#ifdef NEW_ENUM_VALUE
+	class Preparation {};
+#endif
+
+#ifdef NEW_ENUM_VALUE
+	using Value = std::variant<State_::Ready, State_::Running, State_::Preparation>;
+#else
+	using Value = std::variant<State_::Ready, State_::Running>;
+#endif
+}
 
 int main() {
 #ifdef NEW_ENUM_VALUE
@@ -30,5 +46,20 @@ int main() {
 		default:
 			throw logic_error("Unhandled value of enum.");
 	}
+
+
+
+
+
+
+	State_::Value s2 = State_::Ready();
+	std::visit(overloaded {
+	             [](State_::Ready arg) {
+	               cout << "Is ready c++ 17." << endl;
+	             },
+	             [](State_::Running arg) {
+	               cout << "Is running c++ 17." << endl;
+	             },
+	           }, s2);
 }
 
